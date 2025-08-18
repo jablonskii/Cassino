@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - Casino Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="tabs">
+            <button class="tab-button" data-form="login">Login</button>
+            <button class="tab-button" data-form="register">Registrar</button>
+        </div>
+
+        <form id="login-form" action="/login" method="post" class="form-content">
+            <h3>Entrar</h3>
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+        </form>
+
+        <form id="register-form" action="/register" method="post" class="form-content">
+            <h3>Criar Conta</h3>
+            <input type="text" name="username" placeholder="Escolha um usuário" required>
+            <input type="password" name="password" placeholder="Crie uma senha" required>
+            <button type="submit">Registrar</button>
+            {% if register_error %}
+                <p class="error">{{ register_error }}</p>
+            {% endif %}
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const tabs = document.querySelectorAll('.tab-button');
+
+            function showForm(formId) {
+                if (formId === 'login') {
+                    loginForm.style.display = 'block';
+                    registerForm.style.display = 'none';
+                    document.querySelector('.tab-button[data-form="login"]').classList.add('active');
+                    document.querySelector('.tab-button[data-form="register"]').classList.remove('active');
+                } else {
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
+                    document.querySelector('.tab-button[data-form="login"]').classList.remove('active');
+                    document.querySelector('.tab-button[data-form="register"]').classList.add('active');
+                }
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    showForm(tab.dataset.form);
+                });
+            });
+
+            // Decide qual formulário mostrar ao carregar a página
+             if (register_error) {
+            showForm('register');}
+            else{
+            showForm('login');}
+            
+        });
+        
+    </script>
+    
+</body>
+</html>
