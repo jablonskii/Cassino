@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Casino Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <form action="/register" method="post">
+            <h3>Criar Conta</h3>
+            <input type="text" name="username" placeholder="Escolha um usuário" required>
+            <input type="password" name="password" placeholder="Crie uma senha" required>
+            <button type="submit">Registrar</button>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <p class="switch-form">Já tem uma conta? <a href="/login">Faça o login</a></p>
+        </form>
+    </div>
+</body>
+</html>

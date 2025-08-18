@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha seu Jogo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h2>Bem-vindo, {{ usuario }}!</h2>
+            <a href="/logout">Sair</a>
+        </header>
+
+        <div class="content">
+            <div class="game-selection">
+                <h3>Nossos Jogos</h3>
+                <ul>
+                    {% for jogo in lista_jogos %}
+                        <li><a href="#">{{ jogo }}</a></li>
+                    {% endfor %}
+                    <li><a href="{{ url_for('roleta') }}">Roleta da Sorte</a></li>
+                </ul>
+
+                <div class="creator-panel">
+                    <h4>Anunciar Ganho</h4>
+                    <form id="creator-form">
+                        <input type="text" id="jogador-nome" placeholder="Nome do Jogador" required value="{{ usuario }}">
+                        <input type="text" id="jogo-nome" placeholder="Nome do Jogo" required>
+                        <input type="number" id="valor-ganho" placeholder="Valor (ex: 123.45)" step="0.01" required>
+                        <button type="submit">Enviar Ganho</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="chat-ganhos">
+                <h3>Ganhos Recentes</h3>
+                <ul id="lista-ganhos"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            socket.on('novo_ganho', function(data) {
+                const lista = document.getElementById('lista-ganhos');
+                const novoItem = document.createElement('li');
+                const valorFormatado = parseFloat(data.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, style: 'currency', currency: 'BRL' });
+                
+                novoItem.innerHTML = `<strong>${data.jogador}</strong> ganhou <strong>${valorFormatado}</strong> em ${data.jogo}!`;
+                lista.prepend(novoItem);
+
+                if (lista.children.length > 10) {
+                    lista.removeChild(lista.lastChild);
+                }
+            });
+
+            const creatorForm = document.getElementById('creator-form');
+            creatorForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const jogador = document.getElementById('jogador-nome').value;
+                const jogo = document.getElementById('jogo-nome').value;
+                const valor = document.getElementById('valor-ganho').value;
+
+                socket.emit('enviar_ganho_manual', {
+                    jogador: jogador,
+                    jogo: jogo,
+                    valor: valor
+                });
+
+                document.getElementById('jogo-nome').value = '';
+                document.getElementById('valor-ganho').value = '';
+            });
+        });
+    </script>
+</body>
+</html>
