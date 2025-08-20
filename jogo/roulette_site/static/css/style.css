@@ -1,0 +1,99 @@
+
+:root{
+  --bg:#0e0f14;
+  --card:#151824;
+  --accent:#00d084;
+  --red:#c62828;
+  --black:#1c1c1c;
+  --green:#1b5e20;
+  --text:#e9eef5;
+  --muted:#a8b3c2;
+  --border:#2b3040;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial;
+  color:var(--text);
+  background:radial-gradient(circle at 15% 0%,#121623 0,#0e0f14 60%);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+header, footer{
+  text-align:center;
+  padding:16px;
+  background:transparent;
+}
+header h1{margin:0 0 4px 0;font-size:28px}
+header p{margin:0;color:var(--muted)}
+
+.layout{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:20px;
+  padding:20px;
+  width:min(1200px,95%);
+  margin:0 auto;
+  flex:1;
+}
+.left .wheel-card, .left .ref-card, .right .bets-grid, .current-bets{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.wheel-img{width:100%;max-width:420px;display:block;margin:8px auto 12px;border-radius:12px}
+.grid-img{width:100%;max-width:420px;display:block;margin:8px auto;border-radius:12px;opacity:.9}
+
+.btn-primary{
+  display:block;margin:8px auto;
+  padding:12px 18px;border-radius:999px;border:0;
+  background:linear-gradient(180deg,#20e4a8,#0fb67f);
+  color:#00140b;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 16px rgba(15,182,127,.4);
+}
+.btn-outline{
+  padding:8px 12px;border-radius:10px;border:1px solid var(--border);
+  background:transparent;color:var(--text);cursor:pointer
+}
+.last-result{margin-top:10px;text-align:center;color:var(--muted)}
+
+.bankroll{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);padding:12px;border-radius:16px;margin-bottom:12px;
+  border:1px solid var(--border);
+}
+.bankroll input{width:90px;padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:#0f1220;color:var(--text)}
+
+.outside{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:8px;margin-bottom:12px
+}
+.inside .numbers{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:6px;
+  max-height:320px; overflow:auto; padding-right:4px;
+}
+
+.bet{
+  padding:10px 12px;border-radius:12px;border:1px solid var(--border);
+  background:#111527;color:var(--text);cursor:pointer;font-weight:600;
+  transition:.15s transform;
+}
+.bet:hover{transform:translateY(-1px)}
+.bet.red{background:linear-gradient(180deg,#ea4b4b,#c62828)}
+.bet.black{background:linear-gradient(180deg,#3a3a3a,#1c1c1c)}
+.bet.green{background:linear-gradient(180deg,#2f9e44,#1b5e20)}
+
+.current-bets{margin-top:14px}
+table{width:100%;border-collapse:collapse}
+th,td{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;font-size:14px}
+
+@media (max-width: 1000px){
+  .layout{grid-template-columns:1fr}
+  .wheel-img,.grid-img{max-width:100%}
+}
