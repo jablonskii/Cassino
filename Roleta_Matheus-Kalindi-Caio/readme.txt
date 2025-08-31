@@ -1,4 +1,4 @@
-Digite no terminal ates de rodar o código:
+Digite no terminal antes de rodar o código:
 pip install -r requirements.txt
 
 Para rodar o código:
@@ -9,3 +9,4 @@ python -m flask shell
 from app import db
 db.create_all()
 exit()
+
