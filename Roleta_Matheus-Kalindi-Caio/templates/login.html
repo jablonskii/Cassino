@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Login</legend>
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn-primary") }}
+        </div>
+    </form>
+    <div class="sub-link">
+        Não tem uma conta? <a href="{{ url_for('register') }}">Registe-se</a>
+    </div>
+</div>
+{% endblock %}
